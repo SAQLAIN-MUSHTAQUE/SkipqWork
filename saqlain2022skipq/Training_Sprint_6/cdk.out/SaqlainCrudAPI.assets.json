@@ -1,0 +1,20 @@
+{
+  "version": "31.0.0",
+  "files": {
+    "50287e5dbc60d49655c38002b05c6a6e7913abb66d5cef7ec2ee037a5fd49445": {
+      "source": {
+        "path": "SaqlainCrudAPI.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "315997497220-us-east-2": {
+          "bucketName": "cdk-hnb659fds-assets-315997497220-us-east-2",
+          "objectKey": "50287e5dbc60d49655c38002b05c6a6e7913abb66d5cef7ec2ee037a5fd49445.json",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::315997497220:role/cdk-hnb659fds-file-publishing-role-315997497220-us-east-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,323 @@
+{
+  "version": "31.0.0",
+  "artifacts": {
+    "SaqlainCrudAPIProdSaqlainStageC76AEB4B.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SaqlainCrudAPIProdSaqlainStageC76AEB4B.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SaqlainCrudAPIProdSaqlainStageC76AEB4B": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "SaqlainCrudAPIProdSaqlainStageC76AEB4B.template.json",
+        "validateOnSynth": true,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e9f00f96481d679db167d8c4f9d01ff447e36147d5f12232aaaa2f9202eecea9.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SaqlainCrudAPIProdSaqlainStageC76AEB4B.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "Prod-SaqlainStage"
+      },
+      "dependencies": [
+        "SaqlainCrudAPIProdSaqlainStageC76AEB4B.assets"
+      ],
+      "metadata": {
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Lambda_role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaroleD8C079E0"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Lambda_role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaroleDefaultPolicy1E29FFA2"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_WHL_App/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainWHLApp8DE56697"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_WHL_App/CurrentVersion/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainWHLAppCurrentVersionE666AD03dbb95594b4df30c50d38a69ab4fe1b01"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_DB_Lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainDBLambda55287AE1"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_DB_Lambda/AllowInvoke:SaqlainCrudAPIProdSaqlainStageWHAppLambda93D355A3": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainDBLambdaAllowInvokeSaqlainCrudAPIProdSaqlainStageWHAppLambda93D355A387D194B1"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_DB_Lambda/WHApp_Lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainDBLambdaWHAppLambda9FD6CD7A"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_DB_CRUD_Lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainDBCRUDLambda613BF37E"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_CRUD_Table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainCRUDTableDF63C0E2"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapi17B8225C"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiDeployment0B12C573533c5e8d5543f2a671b96c5f27b79694"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiDeploymentStageprodD20C93D1"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiEndpoint5436E484"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLs848593ED"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/GET/ApiPermission.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.GET..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsGETApiPermissionSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5GETURLs90F54696"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/GET/ApiPermission.Test.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.GET..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsGETApiPermissionTestSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5GETURLsC6521787"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsGET76DDB233"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/POST/ApiPermission.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.POST..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsPOSTApiPermissionSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5POSTURLs2639BEA7"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/POST/ApiPermission.Test.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.POST..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsPOSTApiPermissionTestSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5POSTURLsD8887502"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsPOST4ABB1D19"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/PUT/ApiPermission.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.PUT..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsPUTApiPermissionSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5PUTURLs0AD76AAA"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/PUT/ApiPermission.Test.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.PUT..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsPUTApiPermissionTestSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5PUTURLsEE280770"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsPUTBE3B408B"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/DELETE/ApiPermission.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.DELETE..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsDELETEApiPermissionSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5DELETEURLs988CDD85"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/DELETE/ApiPermission.Test.SaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5.DELETE..URLs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsDELETEApiPermissionTestSaqlainCrudAPIProdSaqlainStagesaqlainapiEBFFC6B5DELETEURLs2DC37DE1"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/saqlain_api/Default/URLs/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainapiURLsDELETEFA7DF684"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/SaqlainRepository/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainRepository085F88F5"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/basic_api_test/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "basicapitestCustomResourceFAAE14B6"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRole8C8B0491"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRoleDefaultPolicy280095F8"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB28EAD8E4"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/DurationError/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DurationErrorE717097F"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/ConcurrentExecutionsExceed/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ConcurrentExecutionsExceedB67A30E4"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/AsyncEventAgeExceed/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AsyncEventAgeExceed0C44B93F"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_Alias/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainAlias16AC35EF"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/SaqlainDeploymentGroup/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainDeploymentGroupServiceRole0CE6470F"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/SaqlainDeploymentGroup/Application/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainDeploymentGroupApplication04A7A186"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/SaqlainDeploymentGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainDeploymentGroup6D8E8F33"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/WHApp_Event_Rule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WHAppEventRule27675337"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/WHApp_Event_Rule/AllowEventRuleSaqlainCrudAPIProdSaqlainStageSaqlainWHLApp1151B045": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WHAppEventRuleAllowEventRuleSaqlainCrudAPIProdSaqlainStageSaqlainWHLApp1151B04542536C27"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/WHApp_Lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WHAppLambdaF10F3162"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/WHApp_Lambda/saqlain.mushtaque.skipq@gmail.com/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WHAppLambdasaqlainmushtaqueskipqgmailcom6D3FEC71"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/Saqlain_Table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SaqlainTable7141CC55"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SaqlainCrudAPI/Prod/SaqlainStage/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SaqlainCrudAPI/Prod/SaqlainStage"
+    }
+  }
+}

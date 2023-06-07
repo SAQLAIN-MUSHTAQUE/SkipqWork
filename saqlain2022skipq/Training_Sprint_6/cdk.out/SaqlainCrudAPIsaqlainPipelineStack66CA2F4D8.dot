@@ -1,0 +1,76 @@
+digraph G {
+  # Arrows represent an "unlocks" relationship (opposite of dependency). So chosen
+  # because the layout looks more natural that way.
+  # To represent subgraph dependencies, subgraphs are represented by BEGIN/END nodes.
+  # To render: `dot -Tsvg SaqlainCrudAPIsaqlainPipelineStack66CA2F4D8.dot > graph.svg`, open in a browser.
+  node [shape="box"];
+"BEGIN Build" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Build" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Build.Synth";
+"Source.saqlain2022skipq/EaglePython" -> "Build.Synth";
+"BEGIN Build" -> "Build.Synth";
+"Build.Synth" -> "END Build";
+"BEGIN UpdatePipeline" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END UpdatePipeline" [shape="cds", style="filled", fillcolor="#b7deff"];
+"UpdatePipeline.SelfMutate";
+"Build.Synth" -> "UpdatePipeline.SelfMutate";
+"BEGIN UpdatePipeline" -> "UpdatePipeline.SelfMutate";
+"UpdatePipeline.SelfMutate" -> "END UpdatePipeline";
+"BEGIN Assets" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Assets" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Assets.FileAsset1";
+"UpdatePipeline.SelfMutate" -> "Assets.FileAsset1";
+"Assets.FileAsset2";
+"UpdatePipeline.SelfMutate" -> "Assets.FileAsset2";
+"Assets.DockerAsset1";
+"UpdatePipeline.SelfMutate" -> "Assets.DockerAsset1";
+"BEGIN Assets" -> "Assets.DockerAsset1";
+"BEGIN Assets" -> "Assets.FileAsset1";
+"BEGIN Assets" -> "Assets.FileAsset2";
+"Assets.DockerAsset1" -> "END Assets";
+"Assets.FileAsset1" -> "END Assets";
+"Assets.FileAsset2" -> "END Assets";
+"BEGIN Alpha" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Alpha" [shape="cds", style="filled", fillcolor="#b7deff"];
+"UpdatePipeline.SelfMutate" -> "BEGIN Alpha";
+"BEGIN Alpha.SaqlainStage" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Alpha.SaqlainStage" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Alpha.Testing" -> "BEGIN Alpha.SaqlainStage";
+"Alpha.SaqlainStage.Deploy";
+"Alpha.SaqlainStage.Prepare" -> "Alpha.SaqlainStage.Deploy";
+"Alpha.SaqlainStage.Prepare";
+"Build.Synth" -> "Alpha.SaqlainStage.Prepare";
+"Assets.FileAsset1" -> "Alpha.SaqlainStage.Prepare";
+"Assets.FileAsset2" -> "Alpha.SaqlainStage.Prepare";
+"Assets.DockerAsset1" -> "Alpha.SaqlainStage.Prepare";
+"BEGIN Alpha.SaqlainStage" -> "Alpha.SaqlainStage.Prepare";
+"Alpha.SaqlainStage.Deploy" -> "END Alpha.SaqlainStage";
+"Alpha.Testing";
+"Source.saqlain2022skipq/EaglePython" -> "Alpha.Testing";
+"BEGIN Alpha" -> "Alpha.Testing";
+"END Alpha.SaqlainStage" -> "END Alpha";
+"BEGIN Prod" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Prod" [shape="cds", style="filled", fillcolor="#b7deff"];
+"UpdatePipeline.SelfMutate" -> "BEGIN Prod";
+"END Alpha" -> "BEGIN Prod";
+"BEGIN Prod.SaqlainStage" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Prod.SaqlainStage" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Prod.Ready_For_Production" -> "BEGIN Prod.SaqlainStage";
+"Prod.SaqlainStage.Deploy";
+"Prod.SaqlainStage.Prepare" -> "Prod.SaqlainStage.Deploy";
+"Prod.SaqlainStage.Prepare";
+"Build.Synth" -> "Prod.SaqlainStage.Prepare";
+"Assets.FileAsset1" -> "Prod.SaqlainStage.Prepare";
+"Assets.FileAsset2" -> "Prod.SaqlainStage.Prepare";
+"Assets.DockerAsset1" -> "Prod.SaqlainStage.Prepare";
+"BEGIN Prod.SaqlainStage" -> "Prod.SaqlainStage.Prepare";
+"Prod.SaqlainStage.Deploy" -> "END Prod.SaqlainStage";
+"Prod.Ready_For_Production";
+"BEGIN Prod" -> "Prod.Ready_For_Production";
+"END Prod.SaqlainStage" -> "END Prod";
+"BEGIN Source" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Source" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Source.saqlain2022skipq/EaglePython";
+"BEGIN Source" -> "Source.saqlain2022skipq/EaglePython";
+"Source.saqlain2022skipq/EaglePython" -> "END Source";
+}

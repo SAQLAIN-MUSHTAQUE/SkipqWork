@@ -1,0 +1,241 @@
+{
+  "version": "31.0.0",
+  "artifacts": {
+    "assembly-SaqlainCrudAPI-Alpha": {
+      "type": "cdk:cloud-assembly",
+      "properties": {
+        "directoryName": "assembly-SaqlainCrudAPI-Alpha",
+        "displayName": "SaqlainCrudAPI/Alpha"
+      }
+    },
+    "assembly-SaqlainCrudAPI-Prod": {
+      "type": "cdk:cloud-assembly",
+      "properties": {
+        "directoryName": "assembly-SaqlainCrudAPI-Prod",
+        "displayName": "SaqlainCrudAPI/Prod"
+      }
+    },
+    "SaqlainCrudAPI.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SaqlainCrudAPI.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SaqlainCrudAPI": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://315997497220/us-east-2",
+      "properties": {
+        "templateFile": "SaqlainCrudAPI.template.json",
+        "tags": {
+          "cohort": "Eagle",
+          "name": "SaqlainPipeline"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::315997497220:role/cdk-hnb659fds-deploy-role-315997497220-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::315997497220:role/cdk-hnb659fds-cfn-exec-role-315997497220-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-315997497220-us-east-2/50287e5dbc60d49655c38002b05c6a6e7913abb66d5cef7ec2ee037a5fd49445.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SaqlainCrudAPI.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::315997497220:role/cdk-hnb659fds-lookup-role-315997497220-us-east-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SaqlainCrudAPI.assets"
+      ],
+      "metadata": {
+        "/SaqlainCrudAPI": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "cohort",
+                "Value": "Eagle"
+              },
+              {
+                "Key": "name",
+                "Value": "SaqlainPipeline"
+              }
+            ]
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/ArtifactsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineArtifactsBucketE5898709"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/ArtifactsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineArtifactsBucketPolicy7BD39521"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineRole42EC3BC9"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineRoleDefaultPolicy3070F4DC"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6Pipeline43846811"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Build/Synth/CdkBuildProject/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProjectRole68D2358D"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProjectRoleDefaultPolicy5E670FC5"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Build/Synth/CdkBuildProject/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProject8E2F764D"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Alpha/Testing/Testing/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineAlphaTestingRole80D2800E"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Alpha/Testing/Testing/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineAlphaTestingRoleDefaultPolicy52B69994"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Alpha/Testing/Testing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineAlphaTestingE1B02A61"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Prod/Ready_For_Production/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6PipelineProdReadyForProductionCodePipelineActionRole749D8233"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/CodeBuildActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6CodeBuildActionRole696BE13F"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/CodeBuildActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6CodeBuildActionRoleDefaultPolicy862B110C"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/UpdatePipeline/SelfMutation/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6UpdatePipelineSelfMutationRoleB7C09330"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6UpdatePipelineSelfMutationRoleDefaultPolicyEBA3A5FE"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/UpdatePipeline/SelfMutation/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6UpdatePipelineSelfMutation2BD7B582"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Assets/DockerRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6AssetsDockerRole2C0F30B0"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Assets/DockerRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6AssetsDockerRoleDefaultPolicyFD24E6D0"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Assets/DockerAsset1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6AssetsDockerAsset141DAD785"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6AssetsFileRole2ED56BF6"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6AssetsFileRoleDefaultPolicyA90065D2"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileAsset1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6AssetsFileAsset15B5EFD5E"
+          }
+        ],
+        "/SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileAsset2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "saqlainPipelineStack6AssetsFileAsset20B76053E"
+          }
+        ],
+        "/SaqlainCrudAPI/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SaqlainCrudAPI/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SaqlainCrudAPI/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SaqlainCrudAPI"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

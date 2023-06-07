@@ -1,0 +1,1640 @@
+{
+ "Resources": {
+  "LambdaroleD8C079E0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/CloudWatchFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonDynamoDBFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AWSCodeBuildAdminAccess"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Lambda_role/Resource"
+   }
+  },
+  "LambdaroleDefaultPolicy1E29FFA2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SaqlainCRUDTableDF63C0E2",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "SaqlainTable7141CC55",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LambdaroleDefaultPolicy1E29FFA2",
+    "Roles": [
+     {
+      "Ref": "LambdaroleD8C079E0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Lambda_role/DefaultPolicy/Resource"
+   }
+  },
+  "SaqlainWHLApp8DE56697": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "f1b353d4d42628a4d0eaf291812e136fb31a3f0d8fccd8e5c03ac4006dae3843.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaroleD8C079E0",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "Saqlain_CRUD_Table": {
+       "Ref": "SaqlainCRUDTableDF63C0E2"
+      }
+     }
+    },
+    "Handler": "WHApp.lambda_handler",
+    "Runtime": "python3.9",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "LambdaroleDefaultPolicy1E29FFA2",
+    "LambdaroleD8C079E0"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_WHL_App/Resource",
+    "aws:asset:path": "../asset.f1b353d4d42628a4d0eaf291812e136fb31a3f0d8fccd8e5c03ac4006dae3843",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SaqlainWHLAppCurrentVersionE666AD03dbb95594b4df30c50d38a69ab4fe1b01": {
+   "Type": "AWS::Lambda::Version",
+   "Properties": {
+    "FunctionName": {
+     "Ref": "SaqlainWHLApp8DE56697"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_WHL_App/CurrentVersion/Resource"
+   }
+  },
+  "SaqlainDBLambda55287AE1": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "f1b353d4d42628a4d0eaf291812e136fb31a3f0d8fccd8e5c03ac4006dae3843.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaroleD8C079E0",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "Saqlain_Table": {
+       "Ref": "SaqlainTable7141CC55"
+      }
+     }
+    },
+    "Handler": "DBApp.lambda_handler",
+    "Runtime": "python3.9",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "LambdaroleDefaultPolicy1E29FFA2",
+    "LambdaroleD8C079E0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_DB_Lambda/Resource",
+    "aws:asset:path": "../asset.f1b353d4d42628a4d0eaf291812e136fb31a3f0d8fccd8e5c03ac4006dae3843",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SaqlainDBLambdaAllowInvokeSaqlainCrudAPIAlphaSaqlainStageWHAppLambda0A38C2CE4079D3CC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBLambda55287AE1",
+      "Arn"
+     ]
+    },
+    "Principal": "sns.amazonaws.com",
+    "SourceArn": {
+     "Ref": "WHAppLambdaF10F3162"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_DB_Lambda/AllowInvoke:SaqlainCrudAPIAlphaSaqlainStageWHAppLambda0A38C2CE"
+   }
+  },
+  "SaqlainDBLambdaWHAppLambda9FD6CD7A": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Protocol": "lambda",
+    "TopicArn": {
+     "Ref": "WHAppLambdaF10F3162"
+    },
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "SaqlainDBLambda55287AE1",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_DB_Lambda/WHApp_Lambda/Resource"
+   }
+  },
+  "SaqlainDBCRUDLambda613BF37E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "f1b353d4d42628a4d0eaf291812e136fb31a3f0d8fccd8e5c03ac4006dae3843.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaroleD8C079E0",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "Saqlain_CRUD_Table": {
+       "Ref": "SaqlainCRUDTableDF63C0E2"
+      }
+     }
+    },
+    "Handler": "DBCrud.lambda_handler",
+    "Runtime": "python3.9",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "LambdaroleDefaultPolicy1E29FFA2",
+    "LambdaroleD8C079E0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_DB_CRUD_Lambda/Resource",
+    "aws:asset:path": "../asset.f1b353d4d42628a4d0eaf291812e136fb31a3f0d8fccd8e5c03ac4006dae3843",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SaqlainCRUDTableDF63C0E2": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_CRUD_Table/Resource"
+   }
+  },
+  "saqlainapi17B8225C": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "EndpointConfiguration": {
+     "Types": [
+      "REGIONAL"
+     ]
+    },
+    "Name": "SaqlainAPI"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Resource"
+   }
+  },
+  "saqlainapiDeployment0B12C57325a1a679fbf27e6615306c57dae5accb": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "saqlainapi17B8225C"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "saqlainapiURLsDELETEFA7DF684",
+    "saqlainapiURLsGET76DDB233",
+    "saqlainapiURLsPOST4ABB1D19",
+    "saqlainapiURLsPUTBE3B408B",
+    "saqlainapiURLs848593ED"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Deployment/Resource"
+   }
+  },
+  "saqlainapiDeploymentStageprodD20C93D1": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "saqlainapi17B8225C"
+    },
+    "DeploymentId": {
+     "Ref": "saqlainapiDeployment0B12C57325a1a679fbf27e6615306c57dae5accb"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/DeploymentStage.prod/Resource"
+   }
+  },
+  "saqlainapiURLs848593ED": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "saqlainapi17B8225C",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "URLs",
+    "RestApiId": {
+     "Ref": "saqlainapi17B8225C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/Resource"
+   }
+  },
+  "saqlainapiURLsGETApiPermissionSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69GETURLs2C8C30BB": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/",
+       {
+        "Ref": "saqlainapiDeploymentStageprodD20C93D1"
+       },
+       "/GET/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/GET/ApiPermission.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.GET..URLs"
+   }
+  },
+  "saqlainapiURLsGETApiPermissionTestSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69GETURLs943D2153": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/test-invoke-stage/GET/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/GET/ApiPermission.Test.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.GET..URLs"
+   }
+  },
+  "saqlainapiURLsGET76DDB233": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "saqlainapiURLs848593ED"
+    },
+    "RestApiId": {
+     "Ref": "saqlainapi17B8225C"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SaqlainDBCRUDLambda613BF37E",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/GET/Resource"
+   }
+  },
+  "saqlainapiURLsPOSTApiPermissionSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69POSTURLsAEA699F8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/",
+       {
+        "Ref": "saqlainapiDeploymentStageprodD20C93D1"
+       },
+       "/POST/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/POST/ApiPermission.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.POST..URLs"
+   }
+  },
+  "saqlainapiURLsPOSTApiPermissionTestSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69POSTURLsCD4CBBA5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/test-invoke-stage/POST/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/POST/ApiPermission.Test.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.POST..URLs"
+   }
+  },
+  "saqlainapiURLsPOST4ABB1D19": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "POST",
+    "ResourceId": {
+     "Ref": "saqlainapiURLs848593ED"
+    },
+    "RestApiId": {
+     "Ref": "saqlainapi17B8225C"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SaqlainDBCRUDLambda613BF37E",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/POST/Resource"
+   }
+  },
+  "saqlainapiURLsPUTApiPermissionSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69PUTURLsA15FCDCE": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/",
+       {
+        "Ref": "saqlainapiDeploymentStageprodD20C93D1"
+       },
+       "/PUT/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/PUT/ApiPermission.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.PUT..URLs"
+   }
+  },
+  "saqlainapiURLsPUTApiPermissionTestSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69PUTURLsC9F25554": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/test-invoke-stage/PUT/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/PUT/ApiPermission.Test.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.PUT..URLs"
+   }
+  },
+  "saqlainapiURLsPUTBE3B408B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "PUT",
+    "ResourceId": {
+     "Ref": "saqlainapiURLs848593ED"
+    },
+    "RestApiId": {
+     "Ref": "saqlainapi17B8225C"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SaqlainDBCRUDLambda613BF37E",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/PUT/Resource"
+   }
+  },
+  "saqlainapiURLsDELETEApiPermissionSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69DELETEURLs87EA14A2": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/",
+       {
+        "Ref": "saqlainapiDeploymentStageprodD20C93D1"
+       },
+       "/DELETE/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/DELETE/ApiPermission.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.DELETE..URLs"
+   }
+  },
+  "saqlainapiURLsDELETEApiPermissionTestSaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69DELETEURLsFB8D700E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainDBCRUDLambda613BF37E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "saqlainapi17B8225C"
+       },
+       "/test-invoke-stage/DELETE/URLs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/DELETE/ApiPermission.Test.SaqlainCrudAPIAlphaSaqlainStagesaqlainapiA8898B69.DELETE..URLs"
+   }
+  },
+  "saqlainapiURLsDELETEFA7DF684": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "DELETE",
+    "ResourceId": {
+     "Ref": "saqlainapiURLs848593ED"
+    },
+    "RestApiId": {
+     "Ref": "saqlainapi17B8225C"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SaqlainDBCRUDLambda613BF37E",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/saqlain_api/Default/URLs/DELETE/Resource"
+   }
+  },
+  "SaqlainRepository085F88F5": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    },
+    "ImageTagMutability": "IMMUTABLE",
+    "LifecyclePolicy": {
+     "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"description\":\"api_pyresttest\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":2},\"action\":{\"type\":\"expire\"}}]}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/SaqlainRepository/Resource"
+   }
+  },
+  "basicapitestCustomResourceFAAE14B6": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB28EAD8E4",
+      "Arn"
+     ]
+    },
+    "SrcImage": {
+     "Fn::Join": [
+      "",
+      [
+       "docker://",
+       {
+        "Fn::Sub": "${AWS::AccountId}.dkr.ecr.${AWS::Region}.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}:c76d4a99b44153dfc069cfc4961278ac0d8a3590f27d4aab26e7e026a99c3c69"
+       }
+      ]
+     ]
+    },
+    "DestImage": {
+     "Fn::Join": [
+      "",
+      [
+       "docker://",
+       {
+        "Fn::Select": [
+         4,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "SaqlainRepository085F88F5",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ".dkr.ecr.",
+       {
+        "Fn::Select": [
+         3,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "SaqlainRepository085F88F5",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ".",
+       {
+        "Ref": "AWS::URLSuffix"
+       },
+       "/",
+       {
+        "Ref": "SaqlainRepository085F88F5"
+       },
+       ":latest"
+      ]
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/basic_api_test/CustomResource/Default"
+   }
+  },
+  "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRole8C8B0491": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/ServiceRole/Resource"
+   }
+  },
+  "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRoleDefaultPolicy280095F8": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:DescribeImageScanFindings",
+        "ecr:DescribeImages",
+        "ecr:DescribeRepositories",
+        "ecr:GetAuthorizationToken",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:InitiateLayerUpload",
+        "ecr:ListImages",
+        "ecr:ListTagsForResource",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart",
+        "s3:GetObject"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRoleDefaultPolicy280095F8",
+    "Roles": [
+     {
+      "Ref": "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRole8C8B0491"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB28EAD8E4": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "5bf1b8234302ff202c4cda9fa6ac3337b67aa20a3201be45d2fcbb6df9535433.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRole8C8B0491",
+      "Arn"
+     ]
+    },
+    "Handler": "main",
+    "MemorySize": 512,
+    "Runtime": "go1.x",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRoleDefaultPolicy280095F8",
+    "CustomCDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiBServiceRole8C8B0491"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/Resource",
+    "aws:asset:path": "../asset.5bf1b8234302ff202c4cda9fa6ac3337b67aa20a3201be45d2fcbb6df9535433",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DurationErrorE717097F": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 60,
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "SaqlainWHLApp8DE56697"
+      }
+     }
+    ],
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 850
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/DurationError/Resource"
+   }
+  },
+  "ConcurrentExecutionsExceedB67A30E4": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 60,
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "SaqlainWHLApp8DE56697"
+      }
+     }
+    ],
+    "MetricName": "ConcurrentExecutions",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 1
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/ConcurrentExecutionsExceed/Resource"
+   }
+  },
+  "AsyncEventAgeExceed0C44B93F": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 60,
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "SaqlainWHLApp8DE56697"
+      }
+     }
+    ],
+    "MetricName": "AsyncEventAge",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 30
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/AsyncEventAgeExceed/Resource"
+   }
+  },
+  "SaqlainAlias16AC35EF": {
+   "Type": "AWS::Lambda::Alias",
+   "Properties": {
+    "FunctionName": {
+     "Ref": "SaqlainWHLApp8DE56697"
+    },
+    "FunctionVersion": {
+     "Fn::GetAtt": [
+      "SaqlainWHLAppCurrentVersionE666AD03dbb95594b4df30c50d38a69ab4fe1b01",
+      "Version"
+     ]
+    },
+    "Name": "Prod"
+   },
+   "UpdatePolicy": {
+    "CodeDeployLambdaAliasUpdate": {
+     "ApplicationName": {
+      "Ref": "SaqlainDeploymentGroupApplication04A7A186"
+     },
+     "DeploymentGroupName": {
+      "Ref": "SaqlainDeploymentGroup6D8E8F33"
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_Alias/Resource"
+   }
+  },
+  "SaqlainDeploymentGroupServiceRole0CE6470F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codedeploy.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSCodeDeployRoleForLambdaLimited"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/SaqlainDeploymentGroup/ServiceRole/Resource"
+   }
+  },
+  "SaqlainDeploymentGroupApplication04A7A186": {
+   "Type": "AWS::CodeDeploy::Application",
+   "Properties": {
+    "ComputePlatform": "Lambda"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/SaqlainDeploymentGroup/Application/Resource"
+   }
+  },
+  "SaqlainDeploymentGroup6D8E8F33": {
+   "Type": "AWS::CodeDeploy::DeploymentGroup",
+   "Properties": {
+    "ApplicationName": {
+     "Ref": "SaqlainDeploymentGroupApplication04A7A186"
+    },
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "SaqlainDeploymentGroupServiceRole0CE6470F",
+      "Arn"
+     ]
+    },
+    "AlarmConfiguration": {
+     "Alarms": [
+      {
+       "Name": {
+        "Ref": "DurationErrorE717097F"
+       }
+      },
+      {
+       "Name": {
+        "Ref": "ConcurrentExecutionsExceedB67A30E4"
+       }
+      },
+      {
+       "Name": {
+        "Ref": "AsyncEventAgeExceed0C44B93F"
+       }
+      }
+     ],
+     "Enabled": true
+    },
+    "AutoRollbackConfiguration": {
+     "Enabled": true,
+     "Events": [
+      "DEPLOYMENT_FAILURE",
+      "DEPLOYMENT_STOP_ON_ALARM"
+     ]
+    },
+    "DeploymentConfigName": "CodeDeployDefault.LambdaLinear10PercentEvery1Minute",
+    "DeploymentStyle": {
+     "DeploymentOption": "WITH_TRAFFIC_CONTROL",
+     "DeploymentType": "BLUE_GREEN"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/SaqlainDeploymentGroup/Resource"
+   }
+  },
+  "WHAppEventRule27675337": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "ScheduleExpression": "rate(1 hour)",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "SaqlainWHLApp8DE56697",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/WHApp_Event_Rule/Resource"
+   }
+  },
+  "WHAppEventRuleAllowEventRuleSaqlainCrudAPIAlphaSaqlainStageSaqlainWHLApp26461C13BA26FCB8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SaqlainWHLApp8DE56697",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "WHAppEventRule27675337",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/WHApp_Event_Rule/AllowEventRuleSaqlainCrudAPIAlphaSaqlainStageSaqlainWHLApp26461C13"
+   }
+  },
+  "WHAppLambdaF10F3162": {
+   "Type": "AWS::SNS::Topic",
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/WHApp_Lambda/Resource"
+   }
+  },
+  "WHAppLambdasaqlainmushtaqueskipqgmailcom6D3FEC71": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Protocol": "email",
+    "TopicArn": {
+     "Ref": "WHAppLambdaF10F3162"
+    },
+    "Endpoint": "saqlain.mushtaque.skipq@gmail.com"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/WHApp_Lambda/saqlain.mushtaque.skipq@gmail.com/Resource"
+   }
+  },
+  "SaqlainTable7141CC55": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "timestamp",
+      "KeyType": "RANGE"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "timestamp",
+      "AttributeType": "S"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/Saqlain_Table/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22S3U4CMRCFn8X7UlESEi8XjcZEIwHiLSlthUrbafoj2Wz67k5bECVe9TvT2c7Mmb2l0zs6vmKHMOJiP9JqQ4dlZHxPMLQeFDN0WICW5P7D1nMOWvG+yEaZaGY2gtHhMVkeFdhy98Pv0odj7BfOpTcqVLVUdqtlhPMnnVYslKwKmYTJmoUgY6BdOVDTWeJ7GWcsSBJswI7TJnCv3Kn8H70Cp3iJVshE9JYZEDjoim3aZBUyYU5tWZQH1uPQMsTOqTr3ER+k09AbaWOJ/lJo2La+0wDzIXkua38ncXyo8auMOxAl1CgTyX2p6SCoCL5v2T/qjOXNmn3y5AHQCv9ssHCzh2tI4sAi39Gh08ybZiVCJhyEFLVvOrzUtZ2nePKQHGnRzjncLTvZeSEvvsF2vpBxDYt0/FHwzPk8em2seIO7LvdvKbqEJqYQwfxrEPI9WKFKyUzmPZpkryf0ZkynV59BqZFPNioj6aKd39jfkpvHAgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/Alpha/SaqlainStage/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "saqlainapiEndpoint5436E484": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "saqlainapi17B8225C"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "saqlainapiDeploymentStageprodD20C93D1"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

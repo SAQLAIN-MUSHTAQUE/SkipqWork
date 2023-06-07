@@ -1,0 +1,1845 @@
+{
+ "Resources": {
+  "saqlainPipelineStack6PipelineArtifactsBucketE5898709": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/ArtifactsBucket/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineArtifactsBucketPolicy7BD39521": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "saqlainPipelineStack6PipelineArtifactsBucketE5898709"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/ArtifactsBucket/Policy/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineRole42EC3BC9": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codepipeline.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Role/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineRoleDefaultPolicy3070F4DC": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6CodeBuildActionRole696BE13F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineProdReadyForProductionCodePipelineActionRole749D8233",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "saqlainPipelineStack6PipelineRoleDefaultPolicy3070F4DC",
+    "Roles": [
+     {
+      "Ref": "saqlainPipelineStack6PipelineRole42EC3BC9"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Role/DefaultPolicy/Resource"
+   }
+  },
+  "saqlainPipelineStack6Pipeline43846811": {
+   "Type": "AWS::CodePipeline::Pipeline",
+   "Properties": {
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "saqlainPipelineStack6PipelineRole42EC3BC9",
+      "Arn"
+     ]
+    },
+    "Stages": [
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Source",
+         "Owner": "ThirdParty",
+         "Provider": "GitHub",
+         "Version": "1"
+        },
+        "Configuration": {
+         "Owner": "saqlain2022skipq",
+         "Repo": "EaglePython",
+         "Branch": "main",
+         "OAuthToken": "{{resolve:secretsmanager:SaqlainToken:SecretString:::}}",
+         "PollForSourceChanges": true
+        },
+        "Name": "saqlain2022skipq_EaglePython",
+        "OutputArtifacts": [
+         {
+          "Name": "saqlain2022skipq_EaglePython_Source"
+         }
+        ],
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Source"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProject8E2F764D"
+         },
+         "EnvironmentVariables": "[{\"name\":\"_PROJECT_CONFIG_HASH\",\"type\":\"PLAINTEXT\",\"value\":\"8f504f56cad9df78b5de03113929641078444bae7cd8f2e40e9479172c763964\"}]"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "saqlain2022skipq_EaglePython_Source"
+         }
+        ],
+        "Name": "Synth",
+        "OutputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6CodeBuildActionRole696BE13F",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Build"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "saqlainPipelineStack6UpdatePipelineSelfMutation2BD7B582"
+         },
+         "EnvironmentVariables": "[{\"name\":\"_PROJECT_CONFIG_HASH\",\"type\":\"PLAINTEXT\",\"value\":\"3e52dd4e21a07abbf1b4aa20ea381e2fb2952cfcfdfa666768848bf80ac93ef9\"}]"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "SelfMutate",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6CodeBuildActionRole696BE13F",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "UpdatePipeline"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "saqlainPipelineStack6AssetsDockerAsset141DAD785"
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "DockerAsset1",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6CodeBuildActionRole696BE13F",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       },
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "saqlainPipelineStack6AssetsFileAsset15B5EFD5E"
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "FileAsset1",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6CodeBuildActionRole696BE13F",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       },
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "saqlainPipelineStack6AssetsFileAsset20B76053E"
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "FileAsset2",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6CodeBuildActionRole696BE13F",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Assets"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "saqlainPipelineStack6PipelineAlphaTestingE1B02A61"
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "saqlain2022skipq_EaglePython_Source"
+         }
+        ],
+        "Name": "Testing",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6CodeBuildActionRole696BE13F",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       },
+       {
+        "ActionTypeId": {
+         "Category": "Deploy",
+         "Owner": "AWS",
+         "Provider": "CloudFormation",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StackName": "Alpha-SaqlainStage",
+         "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+         "RoleArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":iam::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":role/cdk-hnb659fds-cfn-exec-role-",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            "-",
+            {
+             "Ref": "AWS::Region"
+            }
+           ]
+          ]
+         },
+         "ActionMode": "CHANGE_SET_REPLACE",
+         "ChangeSetName": "PipelineChange",
+         "TemplatePath": "Synth_Output::assembly-SaqlainCrudAPI-Alpha/SaqlainCrudAPIAlphaSaqlainStage4C2D69E2.template.json"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "SaqlainStage.Prepare",
+        "RoleArn": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        },
+        "RunOrder": 2
+       },
+       {
+        "ActionTypeId": {
+         "Category": "Deploy",
+         "Owner": "AWS",
+         "Provider": "CloudFormation",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StackName": "Alpha-SaqlainStage",
+         "ActionMode": "CHANGE_SET_EXECUTE",
+         "ChangeSetName": "PipelineChange"
+        },
+        "Name": "SaqlainStage.Deploy",
+        "RoleArn": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        },
+        "RunOrder": 3
+       }
+      ],
+      "Name": "Alpha"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Approval",
+         "Owner": "AWS",
+         "Provider": "Manual",
+         "Version": "1"
+        },
+        "Name": "Ready_For_Production",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineProdReadyForProductionCodePipelineActionRole749D8233",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       },
+       {
+        "ActionTypeId": {
+         "Category": "Deploy",
+         "Owner": "AWS",
+         "Provider": "CloudFormation",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StackName": "Prod-SaqlainStage",
+         "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+         "RoleArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":iam::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":role/cdk-hnb659fds-cfn-exec-role-",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            "-",
+            {
+             "Ref": "AWS::Region"
+            }
+           ]
+          ]
+         },
+         "ActionMode": "CHANGE_SET_REPLACE",
+         "ChangeSetName": "PipelineChange",
+         "TemplatePath": "Synth_Output::assembly-SaqlainCrudAPI-Prod/SaqlainCrudAPIProdSaqlainStageC76AEB4B.template.json"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Synth_Output"
+         }
+        ],
+        "Name": "SaqlainStage.Prepare",
+        "RoleArn": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        },
+        "RunOrder": 2
+       },
+       {
+        "ActionTypeId": {
+         "Category": "Deploy",
+         "Owner": "AWS",
+         "Provider": "CloudFormation",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StackName": "Prod-SaqlainStage",
+         "ActionMode": "CHANGE_SET_EXECUTE",
+         "ChangeSetName": "PipelineChange"
+        },
+        "Name": "SaqlainStage.Deploy",
+        "RoleArn": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/cdk-hnb659fds-deploy-role-",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           "-",
+           {
+            "Ref": "AWS::Region"
+           }
+          ]
+         ]
+        },
+        "RunOrder": 3
+       }
+      ],
+      "Name": "Prod"
+     }
+    ],
+    "ArtifactStore": {
+     "Location": {
+      "Ref": "saqlainPipelineStack6PipelineArtifactsBucketE5898709"
+     },
+     "Type": "S3"
+    },
+    "RestartExecutionOnUpdate": true,
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "DependsOn": [
+    "saqlainPipelineStack6PipelineRoleDefaultPolicy3070F4DC",
+    "saqlainPipelineStack6PipelineRole42EC3BC9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineBuildSynthCdkBuildProjectRole68D2358D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Build/Synth/CdkBuildProject/Role/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineBuildSynthCdkBuildProjectRoleDefaultPolicy5E670FC5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/",
+           {
+            "Ref": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProject8E2F764D"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/",
+           {
+            "Ref": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProject8E2F764D"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:codebuild:us-east-2:315997497220:report-group/",
+          {
+           "Ref": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProject8E2F764D"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProjectRoleDefaultPolicy5E670FC5",
+    "Roles": [
+     {
+      "Ref": "saqlainPipelineStack6PipelineBuildSynthCdkBuildProjectRole68D2358D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineBuildSynthCdkBuildProject8E2F764D": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:6.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "saqlainPipelineStack6PipelineBuildSynthCdkBuildProjectRole68D2358D",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"ls\",\n        \"cd saqlain2022skipq/Training_Sprint_6\",\n        \"npm install -g aws-cdk\",\n        \"pip install boto3\",\n        \"pip install -r requirements.txt\",\n        \"pip install -r requirements-dev.txt\",\n        \"cdk synth\"\n      ]\n    }\n  },\n  \"artifacts\": {\n    \"base-directory\": \"saqlain2022skipq/Training_Sprint_6/cdk.out\",\n    \"files\": \"**/*\"\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step SaqlainCrudAPI/Pipeline/Build/Synth",
+    "EncryptionKey": "alias/aws/s3",
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Build/Synth/CdkBuildProject/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineAlphaTestingRole80D2800E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Alpha/Testing/Testing/Role/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineAlphaTestingRoleDefaultPolicy52B69994": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/",
+           {
+            "Ref": "saqlainPipelineStack6PipelineAlphaTestingE1B02A61"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/",
+           {
+            "Ref": "saqlainPipelineStack6PipelineAlphaTestingE1B02A61"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:codebuild:us-east-2:315997497220:report-group/",
+          {
+           "Ref": "saqlainPipelineStack6PipelineAlphaTestingE1B02A61"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "saqlainPipelineStack6PipelineAlphaTestingRoleDefaultPolicy52B69994",
+    "Roles": [
+     {
+      "Ref": "saqlainPipelineStack6PipelineAlphaTestingRole80D2800E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Alpha/Testing/Testing/Role/DefaultPolicy/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineAlphaTestingE1B02A61": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:6.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "saqlainPipelineStack6PipelineAlphaTestingRole80D2800E",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"ls\",\n        \"cd saqlain2022skipq/Training_Sprint_6\",\n        \"npm install -g aws-cdk\",\n        \"pip install -r requirements.txt\",\n        \"pip install -r requirements-dev.txt\",\n        \"pip install boto3\",\n        \"pytest\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step SaqlainCrudAPI/Pipeline/Alpha/Testing",
+    "EncryptionKey": "alias/aws/s3",
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Alpha/Testing/Testing/Resource"
+   }
+  },
+  "saqlainPipelineStack6PipelineProdReadyForProductionCodePipelineActionRole749D8233": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "arn:aws:iam::315997497220:root"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Pipeline/Prod/Ready_For_Production/CodePipelineActionRole/Resource"
+   }
+  },
+  "saqlainPipelineStack6CodeBuildActionRole696BE13F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "Bool": {
+         "aws:ViaAWSService": "codepipeline.amazonaws.com"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "arn:aws:iam::315997497220:root"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/CodeBuildActionRole/Resource"
+   }
+  },
+  "saqlainPipelineStack6CodeBuildActionRoleDefaultPolicy862B110C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6AssetsDockerAsset141DAD785",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6AssetsFileAsset15B5EFD5E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6AssetsFileAsset20B76053E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineAlphaTestingE1B02A61",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineBuildSynthCdkBuildProject8E2F764D",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6UpdatePipelineSelfMutation2BD7B582",
+          "Arn"
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "saqlainPipelineStack6CodeBuildActionRoleDefaultPolicy862B110C",
+    "Roles": [
+     {
+      "Ref": "saqlainPipelineStack6CodeBuildActionRole696BE13F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/CodeBuildActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "saqlainPipelineStack6UpdatePipelineSelfMutationRoleB7C09330": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/UpdatePipeline/SelfMutation/Role/Resource"
+   }
+  },
+  "saqlainPipelineStack6UpdatePipelineSelfMutationRoleDefaultPolicyEBA3A5FE": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/",
+           {
+            "Ref": "saqlainPipelineStack6UpdatePipelineSelfMutation2BD7B582"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/",
+           {
+            "Ref": "saqlainPipelineStack6UpdatePipelineSelfMutation2BD7B582"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:codebuild:us-east-2:315997497220:report-group/",
+          {
+           "Ref": "saqlainPipelineStack6UpdatePipelineSelfMutation2BD7B582"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "ForAnyValue:StringEquals": {
+         "iam:ResourceTag/aws-cdk:bootstrap-role": [
+          "image-publishing",
+          "file-publishing",
+          "deploy"
+         ]
+        }
+       },
+       "Effect": "Allow",
+       "Resource": "arn:*:iam::315997497220:role/*"
+      },
+      {
+       "Action": [
+        "cloudformation:DescribeStacks",
+        "s3:ListBucket"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "saqlainPipelineStack6UpdatePipelineSelfMutationRoleDefaultPolicyEBA3A5FE",
+    "Roles": [
+     {
+      "Ref": "saqlainPipelineStack6UpdatePipelineSelfMutationRoleB7C09330"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource"
+   }
+  },
+  "saqlainPipelineStack6UpdatePipelineSelfMutation2BD7B582": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:6.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "saqlainPipelineStack6UpdatePipelineSelfMutationRoleB7C09330",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy SaqlainCrudAPI --require-approval=never --verbose\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step SaqlainCrudAPI/Pipeline/UpdatePipeline/SelfMutate",
+    "EncryptionKey": "alias/aws/s3",
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/UpdatePipeline/SelfMutation/Resource"
+   }
+  },
+  "saqlainPipelineStack6AssetsDockerRole2C0F30B0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "arn:aws:iam::315997497220:root",
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Assets/DockerRole/Resource"
+   }
+  },
+  "saqlainPipelineStack6AssetsDockerRoleDefaultPolicyFD24E6D0": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/*"
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:codebuild:us-east-2:315997497220:report-group/*"
+      },
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Sub": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-image-publishing-role-${AWS::AccountId}-${AWS::Region}"
+       }
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "saqlainPipelineStack6AssetsDockerRoleDefaultPolicyFD24E6D0",
+    "Roles": [
+     {
+      "Ref": "saqlainPipelineStack6AssetsDockerRole2C0F30B0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Assets/DockerRole/DefaultPolicy/Resource"
+   }
+  },
+  "saqlainPipelineStack6AssetsDockerAsset141DAD785": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:6.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": true,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "saqlainPipelineStack6AssetsDockerRole2C0F30B0",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-SaqlainCrudAPI-Alpha/SaqlainCrudAPIAlphaSaqlainStage4C2D69E2.assets.json\\\" --verbose publish \\\"c76d4a99b44153dfc069cfc4961278ac0d8a3590f27d4aab26e7e026a99c3c69:current_account-current_region\\\"\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step SaqlainCrudAPI/Pipeline/Assets/DockerAsset1",
+    "EncryptionKey": "alias/aws/s3",
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Assets/DockerAsset1/Resource"
+   }
+  },
+  "saqlainPipelineStack6AssetsFileRole2ED56BF6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "arn:aws:iam::315997497220:root",
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileRole/Resource"
+   }
+  },
+  "saqlainPipelineStack6AssetsFileRoleDefaultPolicyA90065D2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:logs:us-east-2:315997497220:log-group:/aws/codebuild/*"
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:codebuild:us-east-2:315997497220:report-group/*"
+      },
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Sub": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+       }
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "saqlainPipelineStack6PipelineArtifactsBucketE5898709",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "saqlainPipelineStack6AssetsFileRoleDefaultPolicyA90065D2",
+    "Roles": [
+     {
+      "Ref": "saqlainPipelineStack6AssetsFileRole2ED56BF6"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileRole/DefaultPolicy/Resource"
+   }
+  },
+  "saqlainPipelineStack6AssetsFileAsset15B5EFD5E": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:6.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "saqlainPipelineStack6AssetsFileRole2ED56BF6",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-SaqlainCrudAPI-Alpha/SaqlainCrudAPIAlphaSaqlainStage4C2D69E2.assets.json\\\" --verbose publish \\\"f1b353d4d42628a4d0eaf291812e136fb31a3f0d8fccd8e5c03ac4006dae3843:current_account-current_region\\\"\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step SaqlainCrudAPI/Pipeline/Assets/FileAsset1",
+    "EncryptionKey": "alias/aws/s3",
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileAsset1/Resource"
+   }
+  },
+  "saqlainPipelineStack6AssetsFileAsset20B76053E": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:6.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "saqlainPipelineStack6AssetsFileRole2ED56BF6",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-SaqlainCrudAPI-Alpha/SaqlainCrudAPIAlphaSaqlainStage4C2D69E2.assets.json\\\" --verbose publish \\\"5bf1b8234302ff202c4cda9fa6ac3337b67aa20a3201be45d2fcbb6df9535433:current_account-current_region\\\"\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "Pipeline step SaqlainCrudAPI/Pipeline/Assets/FileAsset2",
+    "EncryptionKey": "alias/aws/s3",
+    "Tags": [
+     {
+      "Key": "cohort",
+      "Value": "Eagle"
+     },
+     {
+      "Key": "name",
+      "Value": "SaqlainPipeline"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/saqlainPipelineStack6/Assets/FileAsset2/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/0VNSwqDMBQ8i/v4aisI3dYLBHuAojGlT2Mi+VAk5O5VE+tqvszcoLpDkbVfk7N+zAV24J+2ZSOZceYCJTdQq57TpMjafHm2OkcO/p/Vb3nwQEwJ/uHYyO3mJxaBKoFsOe2oA8F2At8osS/teDaPznbdORT9+Uu1GjjbbxINgTTcKKdZnEo8ELrYj5KXEq4FVNlgEHPtpMWJQxPxB6/CaYARAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SaqlainCrudAPI/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

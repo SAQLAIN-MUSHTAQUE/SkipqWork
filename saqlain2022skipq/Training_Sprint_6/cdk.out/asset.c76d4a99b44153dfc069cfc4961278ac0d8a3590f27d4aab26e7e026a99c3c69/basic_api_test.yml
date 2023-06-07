@@ -1,0 +1,38 @@
+- config:
+    - testset: "GET tests"
+    - timeout: 5000  # Increase timeout from the default 10 seconds
+- test: 
+    - name: "get"
+    - url: "/prod/URLs"
+    - method: "GET"
+
+- test: # create entity by POST
+    - name: "POST Test"
+    - url: "/prod/URLs"
+    - method: "POST"
+    - body: '{"id": "05","URL": "www.aliexpress.com"}'
+
+- test: # create entity by DELETE
+    - name: "Delete a single person, verify that works"
+    - url: "/prod/URLs/?id=01"
+    - method: 'DELETE'
+
+- test: # create entity by PUT
+    - name: "Create/update person"
+    - url: "/prod/URLs"
+    - method: "PUT"
+    - body: '{"id":"02","URL":"www.daraz.pk"}'
+
+# Benchmark test
+- config:
+    - testset: Benchmark tests"
+    - timeout: 5000  # Increase timeout from the default 10 seconds
+- benchmark: # create entity
+    - name: "Basic get"
+    - url: "/prod/URLs"
+    - warmup_runs: 2
+    - 'benchmark_runs': '10'
+    - metrics:
+        - total_time
+        - total_time: mean 
+
